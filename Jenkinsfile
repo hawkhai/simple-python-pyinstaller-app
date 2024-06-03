@@ -1,11 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('test'){
-            steps {
-                sh 'echo "test"'
-            }
-        }
         stage('build'){
             steps {
                 sh 'echo "build"'
@@ -17,9 +12,14 @@ pipeline {
                 sh 'echo "push"'
             }
         }
-        stage('deploy'){
+        stage('Deliver') {
             steps {
-                sh 'echo "deploy"'
+                sh 'pyinstaller --onefile sources/add2vals.py'
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/add2vals'
+                }
             }
         }
     }
